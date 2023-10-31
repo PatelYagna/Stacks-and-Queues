@@ -1,20 +1,19 @@
 #include "conversion.h"
 #include "queue.h"
-#include <iostream>
 
 using namespace std;
-
+int x = true;
 int main() {
-	int input;
-	while (input != 7){
-		
-		cout << "1. Infix to Postfix"
-			 << "2. Insert Element in Queue"
-			 << "3. Remove Front Element in Queue"
-			 << "4. View Front Element in Queue"
-			 << "5. Check if Queue is Empty"
-			 << "6. Size of Queue"
-			 << "7. Quit"
+	while (x){
+		int input;
+		cout << endl 
+			 << "1. Infix to Postfix" << endl
+			 << "2. Insert Element in Queue" << endl
+			 << "3. Remove Front Element in Queue" << endl
+			 << "4. View Front Element in Queue" << endl
+			 << "5. Check if Queue is Empty" << endl
+			 << "6. Size of Queue" << endl
+			 << "7. Quit" << endl
 			 << "Enter Option: ";
 		cin >> input;
 		
@@ -25,28 +24,28 @@ int main() {
 				int number;
 				cout << "Enter Number: ";
 				cin >> number;
-				insert(number);
-				display();
-				break;
-			
-			/*case 3:
+				insertNumberInBackOfQueue(number);
+				displayTheQueue();
 				break;
 			case 3:
-				break;
-			case 3:
-				break;
-			case 3:
+				removeFrontNumberInQueue();
 				break;
 			case 4:
+				viewFrontNumberInQueue();
 				break;
 			case 5:
+				isQueueEmpty();
 				break;
 			case 6:
+				sizeOfQueue();
 				break;
 			case 7:
-				break;*/
+				x = false;
+				break;
 			default:
 				cout << "INVALID INPUT" << endl;
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
 				break;
 		}
 	}
