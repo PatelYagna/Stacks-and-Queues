@@ -1,54 +1,109 @@
 #include <iostream>
-#include <queue>
 #include <limits>
+#include <string>
 
 using namespace std;
 
-queue<int> tqueue;
+template <typename item_Type>
+struct Node { 
+	item_Type data; 
+	Node* next; 
+};
 
-void displayTheQueue() {
-	for (int i = 0; i < tqueue.size(); i++){
-		cout << tqueue.front() << " ";
-		tqueue.push(tqueue.front());
-		tqueue.pop();
-  }
-	cout << endl;
-}
+template <typename item_Type>
+class queue {
+	private:
+		Node<item_Type>* head;
+		Node<item_Type>* tail;
+		int num_Items;
 
-void insertNumberInBackOfQueue(int& number){
-	tqueue.push(number);
-}
-
-void removeFrontNumberInQueue() {
-	if (!tqueue.empty()) {
-		int item = tqueue.front();
-		cout << "Removed: " << item << endl;
-		tqueue.pop();
-	}
-	else {
-		cout << "Queue is Empty." << endl;
-	}
-}
-
-void viewFrontNumberInQueue(){
-	if (!tqueue.empty()) {
-		int item = tqueue.front();
-		cout << "Front Number: " << item << endl;
-	}
-	else {
-		cout << "Queue is Empty." << endl;
-	}
-}
-
-void isQueueEmpty(){
-	if (tqueue.empty()){
-		cout << "Queue is Empty" << endl;
-	}
-	else{
-		cout << "Queue is NOT Empty" << endl;
-	}
-}
-
-void sizeOfQueue(){
-	cout << "Size: " << tqueue.size() << endl;
-}
+	public:
+		queue() {
+			head = nullptr;
+			tail = nullptr;
+			num_Items = 0;
+		};
+	
+	
+		~queue() {
+			while (head != nullptr){
+				Node<item_Type>* tempNode = head;
+				head = head->next;
+				delete tempNode;
+			}
+		};
+	
+		item_Type enQueue(){
+			item_Type item = ask();
+			Node<item_Type>* tempNode = new Node<item_Type>;
+			tempNode->data = item;
+			tempNode->next = nullptr;
+			if (isEmpty()){ 
+				head = tempNode; 
+			}
+			else { 
+				tail->next = tempNode; 
+			}
+			tail = tempNode;
+			num_Items++;
+			return tail->data;
+		};
+	
+	
+		item_Type deQueue(){
+			if (isEmpty()) {
+				cout << "List is empty" << endl;
+				return "Nothing removed";
+			}
+			else {
+				Node<item_Type>* tempNode = head;
+				item_Type removedData = head->data;
+				head = head->next;
+				delete tempNode;
+				if (head == nullptr) {
+					tail = nullptr;
+				}
+				num_Items--;
+				return removedData;
+			}
+		};
+	
+		/*item_Type viewFront(){
+			if (isEmpty()){
+				cout << "Empty List" << endl;
+			}
+			else {
+				return head->data;
+			}
+		};*/
+	
+		bool isEmpty(){
+			return num_Items == 0;
+		};
+	
+		int queueSize(){
+			return num_Items;
+		};
+	
+		void display(){
+			if (isEmpty()) {
+				cout << "Empty List!" << endl;
+			}
+			else {
+				Node<item_Type>* tempNode = head;
+				while (tempNode != nullptr) {
+					cout << tempNode->data << " ";
+					tempNode = tempNode->next;
+				}
+				cout << endl;
+			}
+		};
+	
+		item_Type ask(){
+			item_Type input;
+			cout << "Enter Number: ";
+			cin >> input;
+			cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+			return input;
+		};
+};
