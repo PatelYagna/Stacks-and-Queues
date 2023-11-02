@@ -2,8 +2,10 @@
 #include "queue.h"
 
 using namespace std;
-int x = true;
+
 int main() {
+	int x = true;
+	queue<string> list;
 	while (x){
 		int input;
 		cout << endl 
@@ -18,26 +20,29 @@ int main() {
 		cin >> input;
 		
 		switch(input){
-			/*case 1:
-				break;*/
+			case 1:
+				break;
 			case 2:
-				int number;
-				cout << "Enter Number: ";
-				cin >> number;
-				insertNumberInBackOfQueue(number);
-				displayTheQueue();
+				list.enQueue();
+				list.display();
 				break;
 			case 3:
-				removeFrontNumberInQueue();
+				list.deQueue();
+				list.display();
 				break;
 			case 4:
-				viewFrontNumberInQueue();
+				//cout << list.viewFront() << endl;
 				break;
 			case 5:
-				isQueueEmpty();
+				if (list.isEmpty() == 0){
+					cout << "Queue is NOT Empty" << endl;
+				}
+				else {
+					cout << "Queue is Empty" << endl;
+				}
 				break;
 			case 6:
-				sizeOfQueue();
+				cout << "Size " << list.queueSize() << endl;
 				break;
 			case 7:
 				x = false;
