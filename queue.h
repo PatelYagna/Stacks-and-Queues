@@ -52,30 +52,32 @@ class queue {
 	
 		item_Type deQueue(){
 			if (isEmpty()) {
-				cout << "List is empty" << endl;
-				return "Nothing removed";
+				cout << "Empty List!" << endl;
+				return "Nothing Removed";
 			}
 			else {
 				Node<item_Type>* tempNode = head;
 				item_Type removedData = head->data;
 				head = head->next;
 				delete tempNode;
-				if (head == nullptr) {
+				if (head == nullptr){
 					tail = nullptr;
 				}
 				num_Items--;
+                cout << "Removed: " << removedData << endl;
 				return removedData;
 			}
 		};
 	
-		/*item_Type viewFront(){
+		item_Type viewFront(){
 			if (isEmpty()){
-				cout << "Empty List" << endl;
+				return "Empty List!";
 			}
 			else {
-				return head->data;
-			}
-		};*/
+                cout << "Front Item: " ;
+                return head->data;
+            }
+		};
 	
 		bool isEmpty(){
 			return num_Items == 0;
