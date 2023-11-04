@@ -28,10 +28,9 @@ int main() {
 				break;
 			case 3:
 				list.deQueue();
-				list.display();
 				break;
 			case 4:
-				//cout << list.viewFront() << endl;
+				cout << list.viewFront() << endl;
 				break;
 			case 5:
 				if (list.isEmpty() == 0){
