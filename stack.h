@@ -1,10 +1,57 @@
 #include <string>
 #include <iostream>
-#include <stack>
 using namespace std;
 
-int operatorCheck(char row)
-{
+class Stack {
+	private:
+	// Node structure for the stack
+	struct Node {
+		char data;
+		Node* next;
+		Node(char value) : data(value), next(nullptr) {}
+	};
+	Node* top;  // Pointer to the top of the stack
+
+	public:
+	// Constructor to initialize the stack
+	Stack() : top(nullptr) {}
+
+	// Push a new element onto the stack
+	void push(char value) {
+		Node* newNode = new Node(value);
+		newNode->next = top;
+		top = newNode;
+	}
+
+	// Pop the top element from the stack
+	void pop() {
+		if (!isEmpty()) {
+			Node* temp = top;
+			top = top->next;
+			delete temp;
+		}
+	}
+
+	// Peek at the top element of the stack
+	char peek() const {
+		return (top != nullptr) ? top->data : '\0';
+	}
+
+	// Check if the stack is empty
+	bool isEmpty() const {
+		return top == nullptr;
+	}
+
+	// Destructor to deallocate memory used by the stack
+	~Stack() {
+		while (!isEmpty()) {
+			pop();
+		}
+	}
+};
+
+// Function to check the precedence of operators
+int operatorCheck(char row) {
 	if (row == '^')
 		return 3;
 	else if (row == '/' || row == '*')
@@ -15,11 +62,11 @@ int operatorCheck(char row)
 		return -1;
 };
 
-bool orgCheck(string infixInput) {
-	stack<char> brackets;
+// Function to check the balanced parentheses in the infix expression
+bool orgCheck(string infixInput, Stack& brackets) {
 	bool isBalanced = true;
-	char open[] = { '(' , '[' , '{' };
-	char close[] = { ')' , ']' , '}' };
+	char open[] = { '(', '[', '{' };
+	char close[] = { ')', ']', '}' };
 
 	for (auto i : infixInput) {
 		for (char j : open) {
@@ -29,49 +76,43 @@ bool orgCheck(string infixInput) {
 		}
 
 		for (int j = 0; j < 3; j++) {
-			if(i == close[j]) {
-				if (brackets.top() == open[j]) {
+			if (i == close[j]) {
+				if (!brackets.isEmpty() && brackets.peek() == open[j]) {
 					brackets.pop();
-				}
-				else {
+				} else {
 					isBalanced = false;
 				}
 			}
 		}
-
 	}
 
-	if (brackets.empty()) {
+	if (brackets.isEmpty()) {
 		isBalanced = true;
 		return true;
-	}
-	else {
+	} else {
 		isBalanced = false;
 		cout << "INVALID!" << endl;
 		return false;
 	}
 };
 
+// Function to convert infix expression to postfix
 void inPostFix(string infixInput) {
-	stack<char> stack1;
+	Stack stack1;
 	string output = "";
 	char row;
-	//int balanced = 0;
-	//char currRow;
-	//cout << infixInput;
 
+	// Loop through each character in the infix expression
 	for (int i = 0; i < infixInput.length(); i++) {
 		row = infixInput[i];
 
-
+		// If the character is an operand, add it to the output
 		if ((row >= 'a' && row <= 'z') || (row >= 'A' && row <= 'Z') || (row >= '0' && row <= '9')) {
 			output += row;
-			//cout << output << endl;
-		}
-		else {
-			//orgCheck(infixInput);
-			while (!stack1.empty() && operatorCheck(infixInput[i]) <= operatorCheck(stack1.top())) {
-				output += stack1.top();
+		} else {
+			// If the character is an operator, handle precedence and associativity
+			while (!stack1.isEmpty() && operatorCheck(infixInput[i]) <= operatorCheck(stack1.peek())) {
+				output += stack1.peek();
 				stack1.pop();
 			}
 			if ((row != '(') && (row != ')') && (row != '{') && (row != '}') && (row != '[') && (row != ']'))
@@ -79,12 +120,14 @@ void inPostFix(string infixInput) {
 		}
 	}
 
-	while (!stack1.empty()) {
-		output += stack1.top();
+	// Pop any remaining operators from the stack
+	while (!stack1.isEmpty()) {
+		output += stack1.peek();
 		stack1.pop();
 	}
 
-	if (orgCheck(infixInput) == true) {
+	// Check for balanced parentheses and display the postfix expression
+	if (orgCheck(infixInput, stack1)) {
 		cout << output << endl;
 	}
 };
