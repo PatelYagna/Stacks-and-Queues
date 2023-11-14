@@ -23,8 +23,8 @@ class queue {
 			tail = nullptr;
 			num_Items = 0;
 		};
-	
-	
+
+
 		~queue() {
 			while (head != nullptr){
 				Node<item_Type>* tempNode = head;
@@ -32,7 +32,7 @@ class queue {
 				delete tempNode;
 			}
 		};
-	
+
 		item_Type enQueue(){
 			item_Type item = ask();
 			Node<item_Type>* tempNode = new Node<item_Type>;
@@ -48,8 +48,8 @@ class queue {
 			num_Items++;
 			return tail->data;
 		};
-	
-	
+
+
 		item_Type deQueue(){
 			if (isEmpty()) {
 				cout << "Empty List!" << endl;
@@ -64,29 +64,29 @@ class queue {
 					tail = nullptr;
 				}
 				num_Items--;
-                cout << "Removed: " << removedData << endl;
+				cout << "Removed: " << removedData << endl;
 				return removedData;
 			}
 		};
-	
+
 		item_Type viewFront(){
 			if (isEmpty()){
 				return "Empty List!";
 			}
 			else {
-                cout << "Front Item: " ;
-                return head->data;
-            }
+				cout << "Front Item: " ;
+				return head->data;
+			}
 		};
-	
+
 		bool isEmpty(){
 			return num_Items == 0;
 		};
-	
+
 		int queueSize(){
 			return num_Items;
 		};
-	
+
 		void display(){
 			if (isEmpty()) {
 				cout << "Empty List!" << endl;
@@ -100,7 +100,7 @@ class queue {
 				cout << endl;
 			}
 		};
-	
+
 		item_Type ask(){
 			item_Type input;
 			cout << "Enter Number: ";

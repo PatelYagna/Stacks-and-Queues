@@ -1,13 +1,13 @@
-#include "conversion.h"
+#include "stack.h"
 #include "queue.h"
 
 using namespace std;
 
 int main() {
-	int x = true;
+	int input = 0;
 	queue<string> list;
-	while (x){
-		int input;
+	string infixInput;
+	while (input != 7){
 		cout << endl 
 			 << "1. Infix to Postfix" << endl
 			 << "2. Insert Element in Queue" << endl
@@ -21,6 +21,10 @@ int main() {
 		
 		switch(input){
 			case 1:
+				cout << "Enter Infix: ";
+				cin.ignore(10000,'\n');
+				getline(cin, infixInput);
+				inPostFix(infixInput);
 				break;
 			case 2:
 				list.enQueue();
@@ -28,6 +32,7 @@ int main() {
 				break;
 			case 3:
 				list.deQueue();
+				list.display();
 				break;
 			case 4:
 				cout << list.viewFront() << endl;
@@ -41,10 +46,9 @@ int main() {
 				}
 				break;
 			case 6:
-				cout << "Size " << list.queueSize() << endl;
+				cout << "Size: " << list.queueSize() << endl;
 				break;
 			case 7:
-				x = false;
 				break;
 			default:
 				cout << "INVALID INPUT" << endl;
